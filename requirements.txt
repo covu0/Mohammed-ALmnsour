@@ -1,0 +1,14 @@
+fastapi==0.112.2
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+pydantic==2.8.2
+Jinja2==3.1.4
+openai==1.40.6
+faiss-cpu==1.8.0.post1
+python-dotenv==1.0.1
+pdfplumber==0.11.4
+pytesseract==0.3.13
+Pillow==10.4.0
+sentence-transformers==3.0.1
+numpy==1.26.4
+marko==2.1.2
