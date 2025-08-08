@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مساعد اعتراض المخالفات - السعودية</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Tahoma; margin: 2rem; background: #fafafa; }
+    .card { background: white; padding: 1rem 1.25rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.06); max-width: 900px; margin: auto; }
+    label { display: block; margin-top: .75rem; font-weight: 600; }
+    input, textarea, button { width: 100%; padding: .65rem .75rem; border-radius: 10px; border: 1px solid #ddd; font-size: 15px; }
+    textarea { min-height: 120px; }
+    button { background: #0d6efd; color: #fff; border: none; margin-top: 1rem; cursor: pointer; }
+    button:disabled { background: #9bbcf5; cursor: not-allowed; }
+    .result { white-space: pre-wrap; background: #f4f6f9; border: 1px solid #e2e7f1; padding: 1rem; border-radius: 10px; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>مساعد اعتراض المخالفات المرورية (السعودية)</h2>
+    <p>أدخل تفاصيل المخالفة وسيتم توليد مسودة خطاب اعتراض للاستئناس. لا يغني عن الاستشارة القانونية.</p>
+
+    <label>رقم اللوحة</label>
+    <input id="plate" placeholder="مثال: أ ب ج 1234" />
+
+    <label>رمز/نوع المخالفة</label>
+    <input id="code" placeholder="مثال: وقوف غير نظامي" />
+
+    <label>وصف موجز للواقعة</label>
+    <textarea id="desc" placeholder="اكتب بإيجاز ما حدث..." ></textarea>
+
+    <label>الموقع</label>
+    <input id="loc" placeholder="المدينة/الحي/الشارع" />
+
+    <label>التاريخ</label>
+    <input id="date" placeholder="YYYY-MM-DD" />
+
+    <label>تفاصيل إضافية</label>
+    <textarea id="extra" placeholder="أي ظروف أو أدلة إضافية" ></textarea>
+
+    <button id="go">إنشاء المسودة</button>
+
+    <div id="out" class="result" style="display:none"></div>
+  </div>
+
+<script>
+const goBtn = document.getElementById('go');
+const out = document.getElementById('out');
+
+async function draft() {
+  goBtn.disabled = true;
+  out.style.display = 'none';
+  out.textContent = '';
+  try {
+    const payload = {
+      plate_number: document.getElementById('plate').value || null,
+      violation_code: document.getElementById('code').value || null,
+      violation_desc: document.getElementById('desc').value || null,
+      location: document.getElementById('loc').value || null,
+      date: document.getElementById('date').value || null,
+      extra_context: document.getElementById('extra').value || null,
+    };
+
+    const res = await fetch('/api/draft', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const data = await res.json();
+    out.textContent = data.letter_ar;
+    out.style.display = 'block';
+  } catch (e) {
+    out.textContent = 'حدث خطأ: ' + (e.message || e);
+    out.style.display = 'block';
+  } finally {
+    goBtn.disabled = false;
+  }
+}
+
+goBtn.addEventListener('click', draft);
+</script>
+</body>
+</html>
