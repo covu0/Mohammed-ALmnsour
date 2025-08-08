@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Legal Advisor (Educational Only)</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AI Legal Advisor</h1>
+      <p class="subtitle">Educational information only — not legal advice.</p>
+      <div class="disclaimer">
+        This tool provides general, educational information. It is not legal advice and does not create an attorney-client relationship. Consult a licensed attorney for your specific situation.
+      </div>
+    </header>
+
+    <main>
+      <form id="qa-form">
+        <label for="question">Your question</label>
+        <textarea id="question" placeholder="Ask a legal question in plain language..." required></textarea>
+
+        <div class="row">
+          <div class="field">
+            <label for="jurisdiction">Jurisdiction (optional)</label>
+            <input id="jurisdiction" type="text" placeholder="e.g., California, UK, Ontario" />
+          </div>
+          <div class="field">
+            <label for="topic">Topic (optional)</label>
+            <input id="topic" type="text" placeholder="e.g., contracts, employment, IP" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="mode">Mode (optional)</label>
+            <select id="mode">
+              <option value="">Default</option>
+              <option value="concise">Concise</option>
+              <option value="detailed">Detailed</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="submit" type="submit">Get educational info</button>
+      </form>
+
+      <div id="loading" class="loading" hidden>
+        Thinking...
+      </div>
+
+      <section id="result" class="result" hidden>
+        <h2>Result</h2>
+        <div id="disclaimer" class="result-disclaimer"></div>
+        <pre id="answer" class="answer"></pre>
+      </section>
+    </main>
+
+    <footer>
+      <span>Always verify information with a qualified attorney.</span>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
